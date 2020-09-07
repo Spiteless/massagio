@@ -4,12 +4,11 @@ const session = require('express-session')
 const massive = require('massive')
 const app = express()
 
-
 //controllers
 
 
 const {CONNECTION_STRING, SESSION_SECRET, SERVER_PORT} = process.env
-
+const auth = require('./controllers/authController');
 
 app.use(express.json())
 app.use(session({
@@ -30,7 +29,11 @@ massive({
 }).catch( err => console.log(err))
 
 //endpoints
-
+// auth
+app.post('/auth/login', auth.login)
+app.post('/auth/register', auth.register)
+app.get('/auth/logout', auth.logout)
+app.get('/auth/user', auth.getUser)
 
 //
 app.listen(SERVER_PORT, () => console.log(`Conncted to server on ${SERVER_PORT}`))
