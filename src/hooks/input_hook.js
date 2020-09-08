@@ -11,6 +11,7 @@ export const useInput = initialValue => {
       value,
       onChange: event => {
         setValue(event.target.value);
+        console.log("NewChar", event.target.value, value)
       }
     }
   };

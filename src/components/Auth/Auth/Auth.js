@@ -2,55 +2,10 @@ import React, { useState } from "react";
 import { useInput } from "../../../hooks/input_hook"
 import axios from 'axios'
 import styled from '@emotion/styled'
+import { getUser, loginUser } from "../../../redux/baseReducer";
 import { css, jsx } from '@emotion/core'
 
-const Auth = (props) => {
-    const { value: username, bind: bindUsername, reset: resetUsername } = useInput('');
-    const { value: password, bind: bindPassword, reset: resetPassword } = useInput('');
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        login()
-        // alert(`Submitting Name ${username} ${password}`);
-        // resetUsername();
-        // resetPassword();
-    }
-
-    const login = (req, res) => {
-        console.log("login with:", username, password)
-        axios.post('/auth/login', { username, password }).then(res => {
-            // this.props.loginUser(res.data);
-            props.history.push("/dashboard");
-            console.log('Login success with:', res.data)
-        }).catch(err => {
-            console.log(err);
-            console.log('Login Failed')
-        })
-    }
-
-    const register = (e) => {
-        e.preventDefault();
-        console.log(`Registering Name ${username} ${password}`);
-
-        // const { username, password } = this.state
-        console.log("register with:", username, password)
-        axios.post('/auth/register', { username, password }).then(res => {
-            // this.props.loginUser(res.data);
-            // this.props.history.push("/dashboard");
-            console.log("Register success with", res.data)
-
-        }).catch(err => {
-            console.log(err);
-            alert('Register Failed')
-        })
-
-        resetUsername();
-        resetPassword();
-    }
-
-
-
-    const Button = styled.button`
+const Button = styled.button`
         padding: 5px 13px 5px 13px;
         background-color: hotpink;
         font-size: 16px;
@@ -105,6 +60,53 @@ const Auth = (props) => {
 
     const color = "white"
 
+const Auth = (props) => {
+    const { value: username, bind: bindUsername, reset: resetUsername } = useInput('');
+    const { value: password, bind: bindPassword, reset: resetPassword } = useInput('');
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        login()
+        resetUsername();
+        resetPassword();
+    }
+
+    const login = (req, res) => {
+        console.log("login with:", username, password)
+        axios.post('/auth/login', { username, password }).then(res => {
+            loginUser(res.data);
+            props.history.push("/dashboard");
+            console.log('Login success with:', res.data)
+        }).catch(err => {
+            console.log(err);
+            console.log('Login Failed')
+        })
+    }
+
+    const register = (e) => {
+        e.preventDefault();
+        console.log(`Registering Name ${username} ${password}`);
+
+        // const { username, password } = this.state
+        console.log("register with:", username, password)
+        axios.post('/auth/register', { username, password }).then(res => {
+            // this.props.loginUser(res.data);
+            // this.props.history.push("/dashboard");
+            console.log("Register success with", res.data)
+
+        }).catch(err => {
+            console.log(err);
+            alert('Register Failed')
+        })
+
+        resetUsername();
+        resetPassword();
+    }
+
+
+
+    
+
     return (
         <DivContainerAuth>
             <h1>AppTitle</h1>
@@ -122,11 +124,13 @@ const Auth = (props) => {
                         <input type="password" {...bindPassword} />
                     </label>
                 </Row>
+
                 <Row>
                     <Input type="submit" value="Login" />
                     <Button onClick={register}>Register</Button>
                 </Row>
             </form>
+
         </DivContainerAuth>
     )
 }
