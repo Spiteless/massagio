@@ -13,8 +13,8 @@ const NavDropdown = () => (
     <Dropdown icon='content' direction="left">
         <Dropdown.Menu>
             <Dropdown.Item text='My Profile' as={Link} to='/profile' />
+            <Dropdown.Item text='Cart' icon='cart' as={Link} to='/cart' />
             <Dropdown.Item text='Log Out' onClick={logout} as={Link} to='/' />
-            <Dropdown.Item text='Cart' icon='cart' as={Link} to='/' />
         </Dropdown.Menu>
     </Dropdown>
 )
@@ -96,7 +96,6 @@ const Menu = styled.div`
         `
 
 const logout = () => {
-    alert("fired")
     axios.get("/auth/logout").then(() => {
         logoutUser();
     });
