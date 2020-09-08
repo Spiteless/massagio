@@ -45,10 +45,10 @@ export default function (state = initialState, action) {
     console.log("Switch case:", action)
     switch (action.type) {
         case LOGIN_USER:
-            console.log("hit LOGIN_USER via reducer")
             return { ...state, ...payload, isLoggedIn: true }
         case LOGOUT_USER:
-            return { ...state, ...payload }
+            console.log("LOGOUT_USER")
+            return { ...initialState }
         case GET_USER + "_PENDING":
             console.log("GET_USER_PENDING")
             return state

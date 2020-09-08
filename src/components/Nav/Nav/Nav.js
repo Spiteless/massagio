@@ -5,15 +5,24 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import styled from '@emotion/styled'
 import { css, jsx } from '@emotion/core'
+import { IsActiveSession } from "../../../hooks/IsActiveSession"
+import { Dropdown } from 'semantic-ui-react'
+import axios from 'axios'
+
+const NavDropdown = () => (
+    <Dropdown icon='content' direction="left">
+        <Dropdown.Menu>
+            <Dropdown.Item text='My Profile' as={Link} to='/profile' />
+            <Dropdown.Item text='Log Out' onClick={logout} as={Link} to='/' />
+            <Dropdown.Item text='Cart' icon='cart' as={Link} to='/' />
+        </Dropdown.Menu>
+    </Dropdown>
+)
 
 const Navbar = styled.nav`
     display:flex;
-
-    /* width: 100vw; */
-    /* min-width: 800px; */
-    height: 50px;
+    height: 70px;
     padding: 10px;
-    /* margin: 10px 0px 10px 0px; */
     background-color: black;
     color: hotpink;
     justify-content: space-between;
@@ -58,7 +67,7 @@ const ProfileContainer = styled.div`
         }
     }`
 
-const ProfilePic = styled.img`
+const StyledImg = styled.img`
     border: white solid 1px;
     border-radius: 50%;
     margin: 0px;
@@ -68,18 +77,49 @@ const ProfilePic = styled.img`
     object-fit: cover;
 }`
 
+const Button = styled.button`
+        padding: 5px 13px 5px 13px;
+        background-color: hotpink;
+        font-size: 16px;
+        border-radius: 4px;
+        border-color: pink;
+        color: black;
+        font-weight: bold;
+        &:hover {
+            color: white;
+        }`
+
+const Menu = styled.div`
+        font-size: 2.5em;
+        display: flex;
+        align-items: flex-end;
+        `
+
+const logout = () => {
+    alert("fired")
+    axios.get("/auth/logout").then(() => {
+        logoutUser();
+    });
+};
 
 const Nav = (props) => {
     console.log("Nav props:", props)
-    const bgimage = (props.profilePic) ? props.profilePic : `https://robohash.org/` + props.username
+    const bgimage = (props.StyledImg) ? props.StyledImg : `https://robohash.org/` + props.username
+
 
     useEffect(() => {
-        // props.getUser()
-        props.getUserBase()
+        props.getUser()
+            .then(() => console.log('success'))
+            .catch(() => {
+                console.log('fail')
+            })
+        console.log("props in useEffect", props)
+        // props.getUserBase()
         console.log("useEffect has run")
-        console.log("NavProps", props)
     }, [])
 
+    // attempting to extract useEffect out 
+    // console.log(IsActiveSession())
 
 
 
@@ -88,23 +128,29 @@ const Nav = (props) => {
             <div className="group">
                 <Logo className="Logo">
                     <Link to="/dashboard">
-                        <ProfilePic
-                        className="nav-profile-pic"
-                        src={"https://media.istockphoto.com/vectors/young-woman-having-relaxation-office-massage-in-mobile-chair-vector-id833156068?s=170x170"} />
+                        <StyledImg
+                            className="nav-profile-pic"
+                            src={"https://media.istockphoto.com/vectors/young-woman-having-relaxation-office-massage-in-mobile-chair-vector-id833156068?s=170x170"} />
                     </Link>
                 </Logo>
             </div>
 
             <div className="group">
-                <h1>{props.username}</h1>
+                <h1>{
+                    (props.user.username)
+                        ? "Hello " + props.user.username
+                        : <Link to="/"><Button>Please Login</Button></Link>
+                }</h1>
             </div>
 
             <div className="group">
                 <ProfileContainer>
+                    <Menu>
+                        <NavDropdown />
+                    </Menu>
                     <Link to="/profile">
-                        <ProfilePic className="nav-profile-pic" src={"https://cataas.com/cat/says/hello%20tofu"} />
+                        <StyledImg className="nav-profile-pic" src={props.user.profilePic} />
                     </Link>
-                        <ProfilePic className="nav-profile-pic" src={"https://img.icons8.com/plasticine/2x/image.png"} />
                 </ProfileContainer>
             </div>
 
@@ -115,18 +161,19 @@ const Nav = (props) => {
 }
 
 const mapStateToProps = reduxState => {
-    // const { username, profilePic, userId } = reduxState.user;
-    console.log("reduxState:", reduxState);
-    const { base } = reduxState
+    // const { username, StyledImg, userId } = reduxState.user;
+    console.log("Nav/mapStateToProps:", reduxState);
+    const { auth, base } = reduxState
     console.log('base:', base)
     const newState = {
         // username,
-        // profilePic,
+        // StyledImg,
         // userId
-        username: "ted",
-        profilePic: "bunny.jpg",
-        userId: 4,
-        ...base
+        // username: "ted",
+        // StyledImg: "bunny.jpg",
+        // userId: 4,
+        ...base,
+        ...auth
     };
     return newState
 };

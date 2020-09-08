@@ -6,6 +6,7 @@ import routes from './routes.js'
 import { withRouter } from 'react-router-dom'
 
 function App(props) {
+  console.log("App.js props", props)
   return (
     <div className="App">
       { (props.location.pathname === "/")
@@ -16,4 +17,7 @@ function App(props) {
   );
 }
 
-export default withRouter(App);
+
+export default withRouter(
+    App
+  );

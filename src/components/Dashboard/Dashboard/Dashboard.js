@@ -1,11 +1,22 @@
-import React from 'react'
+import React from 'react';
+import { connect } from 'react-redux'
 
-const Dashboard = () => {
+  
+
+const Dashboard = (props) => {
     return (
         <div>
             <h1>Hello Dashboard</h1>
+            {console.log("Dashboard:", props)}
         </div>
     )
 }
 
-export default Dashboard
+const mapStateToProps = reduxState => {
+    console.log("Dashboard/mapStateToProps", reduxState)
+    return reduxState;
+}
+
+export default connect(mapStateToProps, {})(Dashboard);
+
+// export default Dashboard

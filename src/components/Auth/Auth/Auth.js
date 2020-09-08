@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { useInput } from "../../../hooks/input_hook"
+import { useInput } from "../../../hooks/InputHook"
 import axios from 'axios'
 import styled from '@emotion/styled'
+import { connect } from 'react-redux'
 import { getUser, loginUser } from "../../../redux/baseReducer";
 import { css, jsx } from '@emotion/core'
 
@@ -58,8 +59,6 @@ const Button = styled.button`
         }
         `
 
-    const color = "white"
-
 const Auth = (props) => {
     const { value: username, bind: bindUsername, reset: resetUsername } = useInput('');
     const { value: password, bind: bindPassword, reset: resetPassword } = useInput('');
@@ -87,11 +86,11 @@ const Auth = (props) => {
         e.preventDefault();
         console.log(`Registering Name ${username} ${password}`);
 
-        // const { username, password } = this.state
+        // const { username, password } = this.
         console.log("register with:", username, password)
         axios.post('/auth/register', { username, password }).then(res => {
-            // this.props.loginUser(res.data);
-            // this.props.history.push("/dashboard");
+            props.loginUser(res.data);
+            props.history.push("/dashboard");
             console.log("Register success with", res.data)
 
         }).catch(err => {
@@ -109,7 +108,7 @@ const Auth = (props) => {
 
     return (
         <DivContainerAuth>
-            <h1>AppTitle</h1>
+            <h1>Massagio</h1>
             <form onSubmit={handleSubmit}>
                 <Row>
                     <label>
@@ -130,9 +129,13 @@ const Auth = (props) => {
                     <Button onClick={register}>Register</Button>
                 </Row>
             </form>
-
         </DivContainerAuth>
     )
 }
 
-export default Auth
+const mapStateToProps = reduxState => {
+    console.log("Auth\mapStateToProps", reduxState)
+    return reduxState;
+}
+
+export default connect(mapStateToProps, { loginUser })(Auth);

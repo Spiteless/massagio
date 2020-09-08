@@ -4,7 +4,10 @@ import promiseMiddleware from 'redux-promise-middleware';
 import authReducer from './authReducer';
 import baseReducer from './baseReducer';
 
-const rootReducer = combineReducers({base: baseReducer, auth: authReducer})
+const rootReducer = combineReducers({
+    base: baseReducer,
+    auth: authReducer
+})
 
 
 export default createStore(rootReducer, applyMiddleware(promiseMiddleware));
