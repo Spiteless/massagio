@@ -61,9 +61,9 @@ module.exports = {
     },
     //if user is still logged in, pass that to frontend
     getUser: (req, res) => {
-        console.log('Fired GetUser')
+        console.log('Fired GetUser', req.session.user.firstName)
         if(req.session.user){
-            console.log("getUser", req.session.user)
+            // console.log("getUser", req.session.user)
             res.status(200).send(req.session.user)
         } else {
             res.sendStatus(404)

@@ -43,3 +43,46 @@ body {
     transform: rotate(360deg);
   }
 }
+
+@media screen and ( max-width: 550px) {
+  h1 {
+    font-size: 1em;
+  }
+  .nav-profile-pic, .nav-menu {
+    height: 40px !important;
+    width: 40px !important;
+    /* border: red solid 3px; */
+  }
+  .to-login {
+    display: none !important;
+  }
+}
+
+@media screen and ( min-width: 551px) {
+  h1 {
+    font-size: 1.3em;
+  }
+  .nav-profile-pic, .nav-menu {
+    height: 45px !important;
+    width: 45px !important;
+  }
+  .nav-menu {
+    /* color: blue !important; */
+    height: 45px !important;
+    width: 45px !important;   
+  }
+}
+
+@media screen and ( min-width: 700px) {
+  h1 {
+    font-size: 1.5em;
+  }
+  nav-profile-pic {
+    height: 45px !important;
+    width: 45px !important;
+    border: blue solid 3px;
+  }
+  .to-login {
+
+  }
+}

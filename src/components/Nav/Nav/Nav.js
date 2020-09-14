@@ -1,16 +1,14 @@
 import React, { useEffect } from 'react'
 import { getUser, logoutUser } from "../../../redux/authReducer";
-import { getUserBase } from "../../../redux/baseReducer";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import styled from '@emotion/styled'
-import { css, jsx } from '@emotion/core'
 import { IsActiveSession } from "../../../hooks/IsActiveSession"
 import { Dropdown } from 'semantic-ui-react'
 import axios from 'axios'
 
 const NavDropdown = () => (
-    <Dropdown icon='content' direction="left">
+    <Dropdown className="nav-menu" icon='content' direction="left">
         <Dropdown.Menu>
             <Dropdown.Item text='My Profile' as={Link} to='/profile' />
             <Dropdown.Item text='Cart' icon='cart' as={Link} to='/cart' />
@@ -37,6 +35,7 @@ const Navbar = styled.nav`
     padding-right: 20px;
     background-color: black;
     color: #ff7034;
+    /* max-width: 700px; */
     justify-content: space-between;
     align-items: center;
     & > * > h1 {
@@ -125,16 +124,21 @@ const logout = () => {
     });
 };
 
+
 const Nav = (props) => {
     console.log("Nav props:", props)
     const bgimage = (props.StyledImg) ? props.StyledImg : `https://robohash.org/` + props.email
 
-
-    useEffect(() => {
-        props.getUser()
-            .then(() => console.log('success'))
-            .catch(() => {
-                console.log('fail')
+    console.log("does this line clear")
+    useEffect(
+        () => {
+        console.log("RAN USE EFFECT NAV")
+        const user_info_in = axios.get("/auth/user").then(res => {
+            console.log("getUser reducer")
+            props.getUser(res.data)
+            console.log("res Data-------------", res.data)
+        }).catch((err) => {
+                console.log(err)
             })
         console.log("useEffect has run")
     }, [])
@@ -143,7 +147,8 @@ const Nav = (props) => {
             // console.log(IsActiveSession())
 
     return (
-        <Navbar>
+        <div className="nav-container">
+            <Navbar>
             <div className="group">
                 <Logo className="Logo group">
                     <Link to="/dashboard">
@@ -159,7 +164,7 @@ const Nav = (props) => {
                 <h1>{
                     (props.user.email)
                         ? "Hello " + props.user.firstName
-                        : <Link to="/"><Button>Please Login</Button></Link>
+                        : <Link to="/"><Button className='to-login'>Please Login</Button></Link>
                 }</h1>
             </div>
 
@@ -179,6 +184,8 @@ const Nav = (props) => {
 
 
         </Navbar>
+        </div>
+        
 
     )
 }
@@ -201,4 +208,6 @@ const mapStateToProps = reduxState => {
     return newState
 };
 
-export default connect(mapStateToProps, { getUser, logoutUser, getUserBase })(Nav);
+export default connect(mapStateToProps, { getUser,
+    logoutUser,
+})(Nav);

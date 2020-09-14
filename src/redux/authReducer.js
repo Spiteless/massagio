@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const initialState = {
+    companies: [],
     isLoggedIn: false,
     user: {}
 }
@@ -13,7 +14,6 @@ const CHANGE_USER_OBJ_ON_PROFILE_UPDATE = 'CHANGE_USER_OBJ_ON_PROFILE_UPDATE'
 console.log('initialized authReducer')
 
 export function loginUser(user) {
-    console.log('auth.loginUser:', user)
     return {
         type: LOGIN_USER,
         payload: user
@@ -21,20 +21,14 @@ export function loginUser(user) {
 }
 
 export function logoutUser() {
-    console.log('auth.logoutUser')
     return {
         type: LOGOUT_USER,
         payload: initialState
     }
 }
 
-export function getUser() {
-    console.log('auth.getUser')
-    const user = axios.get('/auth/user').then(res => {
-        console.log("getUser reducer", res.data)
-        return res.data
-    })
-
+export function getUser(user) {
+    console.log("getUser reducer, user:", user)
     return {
         type: GET_USER,
         payload: user
@@ -62,6 +56,9 @@ export default function (state = initialState, action) {
             return state
         case GET_USER + "_FULFILLED":
             console.log("GET_USER_FULFILLED")
+            return { ...state, user: payload, isLoggedIn: true }
+        case GET_USER:
+            console.log("GET_USER -- just that in switch case")
             return { ...state, user: payload, isLoggedIn: true }
         case GET_USER + "_REJECTED":
             console.log("GET_USER_REJECTED")

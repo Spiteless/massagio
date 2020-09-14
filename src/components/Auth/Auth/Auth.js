@@ -4,7 +4,6 @@ import axios from 'axios'
 import styled from '@emotion/styled'
 import { connect } from 'react-redux'
 import { getUser, loginUser } from "../../../redux/authReducer";
-import { css, jsx } from '@emotion/core'
 
 const Button = styled.button`
         padding: 5px 13px 5px 13px;
