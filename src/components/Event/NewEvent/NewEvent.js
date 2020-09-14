@@ -66,11 +66,75 @@ const DivContainerEvent = styled.div`
         `
 
 
-const NewEvent = () => {
+const NewEvent = (props) => {
+    const { value: firstName, bind: bindFirstName, reset: resetFirstName } = useInput('');
+    const { value: lastName, bind: bindLastName, reset: resetLastName } = useInput('');
+    const { value: profilePic, bind: bindProfilePic, reset: resetProfilePic } = useInput('');
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // updateProfile()
+        console.log("handleSubmit has props", props)
+    }
+
+    const createEvent = (req, res) => {
+        const pic = profilePic || props.user.profilePic
+        const first = firstName || props.user.firstName
+        const last = lastName || props.user.lastName
+        console.log("updateProfile:", props.user.userId, firstName, lastName, profilePic)
+        axios.post(`/user/${props.user.userId}`, { firstName: first, lastName: last, profilePic: pic }).then(res => {
+            // loginUser(res.data); //do a redux thing
+            // props.history.push("/profile");
+            console.log('Profile update success:', res.data)
+        }).catch(err => {
+            console.log(err);
+            alert('Update Profile Failed')
+        })
+        const user = { ...props.user, firstName: first, lastName: last, profilePic: pic }
+        updateUser(user)
+    }
+
     return (
         <DivContainerEvent>
 
-            <h1>Hello Event</h1>
+            <form onSubmit={handleSubmit}>
+                <Row>
+                    <label>
+                        <Span className='label'>First Name:</Span>
+                        <input
+                            type="text"
+                            value={props.user.firstName}
+                            placeholder={props.user.firstName}
+                            {...bindFirstName} />
+                    </label>
+                </Row>
+
+                <Row>
+                    <label>
+                        <Span className='label'>Last Name:</Span>
+                        <input
+                            type="text"
+                            value={props.user.lastName}
+                            placeholder={props.user.lastName}
+                            {...bindLastName} />
+                    </label>
+                </Row>
+
+                <Row>
+                    <label>
+                        <Span className='label'>Profile Pic Url:</Span>
+                        <input
+                            type="text"
+                            value={props.user.profilePic}
+                            placeholder={props.user.profilePic}
+                            {...bindProfilePic} />
+                    </label>
+                </Row>
+
+                <Row>
+                    <Input type="submit" value="Update" />
+                </Row>
+            </form>
         </DivContainerEvent>
     )
 }

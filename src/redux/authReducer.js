@@ -8,6 +8,7 @@ const initialState = {
 const LOGIN_USER = 'LOGIN_USER';
 const LOGOUT_USER = 'LOGOUT_USER';
 const GET_USER = 'GET_USER';
+const CHANGE_USER_OBJ_ON_PROFILE_UPDATE = 'CHANGE_USER_OBJ_ON_PROFILE_UPDATE'
 
 console.log('initialized authReducer')
 
@@ -40,6 +41,13 @@ export function getUser() {
     }
 }
 
+export function changeUserObjOnProfileUpdate(user){
+    return {
+        type: CHANGE_USER_OBJ_ON_PROFILE_UPDATE,
+        payload: user
+    }
+}
+
 export default function (state = initialState, action) {
     const { type, payload } = action
     console.log("Switch case:", action)
@@ -57,7 +65,10 @@ export default function (state = initialState, action) {
             return { ...state, user: payload, isLoggedIn: true }
         case GET_USER + "_REJECTED":
             console.log("GET_USER_REJECTED")
-            return initialState
+            return { ...initialState}
+        case CHANGE_USER_OBJ_ON_PROFILE_UPDATE:
+            console.log("CHANGE_USER_OBJ_ON_PROFILE_UPDATE")
+            return { ...state, ...payload}
         default:
             return initialState
     }

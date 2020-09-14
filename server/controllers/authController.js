@@ -7,7 +7,7 @@ module.exports = {
         console.log('Fired Login', req.body)
         const db = req.app.get('db');
         const {email, password} = req.body;
-        const user = await db.auth_auth_check_user(email);
+        const user = await db.auth_check_user(email);
         if(!user[0]){
             console.log("returned 401")
             return res.status(401).send('Incorrect credentials');

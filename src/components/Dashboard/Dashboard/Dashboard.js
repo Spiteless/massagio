@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
+import { adminGetCompanies } from "../../../redux/baseReducer";
 import styled from '@emotion/styled'
 
 const Container = styled.div`
@@ -11,6 +12,17 @@ const Container = styled.div`
 `  
 
 const Dashboard = (props) => {
+    // useEffect(() => {
+        // props.adminGetCompanies()
+    //         .then(() => console.log('company-list: success'))
+    //         .catch(() => {
+    //             console.log('company-list fail')
+    //         })
+    //     console.log("props in useEffect", props)
+    //     // props.getUserBase()
+    //     console.log("useEffect has run")
+    // }, [])
+
     return (
         <Container>
             <h1>Hello Dashboard</h1>
@@ -24,6 +36,6 @@ const mapStateToProps = reduxState => {
     return reduxState;
 }
 
-export default connect(mapStateToProps, {})(Dashboard);
+export default connect(mapStateToProps, { adminGetCompanies })(Dashboard);
 
 // export default Dashboard

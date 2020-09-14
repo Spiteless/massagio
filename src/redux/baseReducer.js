@@ -3,21 +3,42 @@ import axios from 'axios';
 const initialState = {
     isLoggedIn: false,
     user: {},
-    idea: ""
+    events: [],
+    companies: [],
 }
 
 const LOGIN_USER = 'LOGIN_USER';
 const LOGOUT_USER = 'LOGOUT_USER';
 const GET_USER = 'GET_USER';
 const UPDATE_USER = 'UPDATE_USER';
+const ADMIN_GET_COMPANIES = 'ADMIN_GET_COMPANIES';
 
 console.log('initialized baseReducer')
+
+// export function adminGetCompanies(companyList) {
+//     console.log('UpdateUser:', companyList)
+//     return {
+//         type: UPDATE_USER,
+//         payload: companyList   
+//     }
+// }
+export function adminGetCompanies() {
+    // console.log('UpdateUser:', companyList)
+    const companies = axios.get('/admin/companylist').then(res => {
+        return res.data
+        })
+    return {
+        type: ADMIN_GET_COMPANIES,
+        payload: companies
+    }
+}
+
 
 export function updateUser(user) {
     console.log('UpdateUser:', user)
     return {
         type: UPDATE_USER,
-        payload: user   
+        payload: user
     }
 }
 
@@ -27,6 +48,8 @@ export function logoutUser() {
         payload: initialState
     }
 }
+
+
 
 export function getUserBase() {
     const info = {
@@ -61,7 +84,10 @@ export default function (state = initialState, action) {
             return initialState
         case GET_USER:
             console.log("GET_USER", state, payload)
-            return { ...state, ...payload}
+            return { ...state, ...payload }
+        case ADMIN_GET_COMPANIES:
+            console.log("ADMIN_GET_COMPANIES", payload)
+            return { ...state, companies: payload }
         default:
             return initialState
     }

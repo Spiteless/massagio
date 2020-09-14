@@ -136,15 +136,11 @@ const Nav = (props) => {
             .catch(() => {
                 console.log('fail')
             })
-        console.log("props in useEffect", props)
-        // props.getUserBase()
         console.log("useEffect has run")
     }, [])
 
     // attempting to extract useEffect out 
-    // console.log(IsActiveSession())
-
-
+            // console.log(IsActiveSession())
 
     return (
         <Navbar>

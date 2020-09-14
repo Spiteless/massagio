@@ -4,6 +4,7 @@ import styled from '@emotion/styled'
 import { useInput } from "../../../hooks/InputHook"
 import axios from 'axios'
 import { connect } from "react-redux";
+import { changeUserObjOnProfileUpdate } from "../../../redux/authReducer";
 
 const Button = styled.button`
         padding: 5px 13px 5px 13px;
@@ -75,7 +76,8 @@ const Profile = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         updateProfile()
-        console.log("handleSubmit has props", props)
+        // console.log("handleSubmit has props", props)
+        changeUserObjOnProfileUpdate()
     }
 
     useEffect(() => {
@@ -94,15 +96,14 @@ const Profile = (props) => {
         const first = firstName || props.user.firstName
         const last = lastName   || props.user.lastName
         console.log("updateProfile:", props.user.userId, firstName, lastName, profilePic)
+        const user = {...props.user, firstName: first, lastName: last, profilePic: pic }
         axios.put(`/user/${props.user.userId}`, { firstName: first, lastName: last, profilePic: pic }).then(res => {
             // loginUser(res.data); //do a redux thing
             // props.history.push("/profile");
             console.log('Profile update success:', res.data)
         }).catch(err => {
             console.log(err);
-            alert('Update Profile Failed')
         })
-        const user = {...props.user, firstName: first, lastName: last, profilePic: pic }
         updateUser(user)
     }
 
@@ -170,4 +171,4 @@ const mapStateToProps = reduxState => {
 };
 
 
-export default connect(mapStateToProps, { updateUser })(Profile);
+export default connect(mapStateToProps, { updateUser, changeUserObjOnProfileUpdate })(Profile);
