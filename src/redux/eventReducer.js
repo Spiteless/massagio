@@ -9,15 +9,14 @@ const initialState = {
 const LOGIN_USER = 'LOGIN_USER';
 const LOGOUT_USER = 'LOGOUT_USER';
 const GET_USER = 'GET_USER';
-const UPDATE_USER = 'UPDATE_USER';
 
 console.log('initialized baseReducer')
 
-export function updateUser(user) {
-    console.log('UpdateUser:', user)
+export function loginUser(user) {
+    console.log('loginUser:', user)
     return {
-        type: UPDATE_USER,
-        payload: user   
+        type: LOGIN_USER,
+        payload: user
     }
 }
 
@@ -53,9 +52,6 @@ export default function (state = initialState, action) {
         case GET_USER + "_FULFILLED":
             console.log("GET_USER_FULFILLED")
             return { ...state, user: payload, isLoggedIn: true }
-        case UPDATE_USER:
-            console.log("UPDATE_USER")
-            return { ...state, user: payload }
         case GET_USER + "_REJECTED":
             console.log("GET_USER_REJECTED")
             return initialState

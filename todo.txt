@@ -1,0 +1,8 @@
+Not sure if adding cart or not -- not required
+
+This criterion is linked to a Learning OutcomeREQUIRED - Working full CRUD
+Must be able to read, write, edit, and delete data.
+
+This criterion is linked to a Learning OutcomeREQUIRED - Foreign key and JOIN statement
+Must have a foreign key in database and working join statement in db folder.
+

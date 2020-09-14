@@ -3,22 +3,29 @@ import { useInput } from "../../../hooks/InputHook"
 import axios from 'axios'
 import styled from '@emotion/styled'
 import { connect } from 'react-redux'
-import { getUser, loginUser } from "../../../redux/baseReducer";
+import { getUser, loginUser } from "../../../redux/authReducer";
 import { css, jsx } from '@emotion/core'
 
 const Button = styled.button`
         padding: 5px 13px 5px 13px;
-        background-color: hotpink;
+        background-color: #ff7034;
         font-size: 16px;
         border-radius: 4px;
-        border-color: pink;
+        border-color: orange;
         color: black;
         font-weight: bold;
         &:hover {
             color: white;
         }`
 
-    const Row = styled.div`
+const Span = styled.span`
+        display:inline-block;
+        width: 100px;
+        border-radius: 4px;
+        border-color: orange;
+`
+
+const Row = styled.div`
         align-self: center;
         padding: 10px;
         display: flex;
@@ -34,19 +41,19 @@ const Button = styled.button`
         }
     `
 
-    const Input = styled.input`
+const Input = styled.input`
         padding: 5px 13px 5px 13px;
-        background-color: hotpink;
+        background-color: #ff7034;
         font-size: 16px;
         border-radius: 4px;
-        border-color: pink;
+        border-color: orange;
         color: black;
         font-weight: bold;
         &:hover {
             color: white;
         }`
 
-    const DivContainerAuth = styled.div`
+const DivContainerAuth = styled.div`
         height: 100vh;
         width: 100vw;
         background-color: #232323;
@@ -60,37 +67,37 @@ const Button = styled.button`
         `
 
 const Auth = (props) => {
-    const { value: username, bind: bindUsername, reset: resetUsername } = useInput('');
+    const { value: email, bind: bindEmail, reset: resetEmail } = useInput('');
     const { value: password, bind: bindPassword, reset: resetPassword } = useInput('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
         login()
-        resetUsername();
+        resetEmail();
         resetPassword();
     }
 
     const login = (req, res) => {
-        console.log("login with:", username, password)
-        axios.post('/auth/login', { username, password }).then(res => {
+        console.log("login with:", email, password)
+        axios.post('/auth/login', { email, password }).then(res => {
             loginUser(res.data);
             props.history.push("/dashboard");
             console.log('Login success with:', res.data)
         }).catch(err => {
             console.log(err);
-            console.log('Login Failed')
+            alert('Login Failed')
         })
     }
 
     const register = (e) => {
         e.preventDefault();
-        console.log(`Registering Name ${username} ${password}`);
+        console.log(`Registering Name ${email} ${password}`);
 
-        // const { username, password } = this.
-        console.log("register with:", username, password)
-        axios.post('/auth/register', { username, password }).then(res => {
+        // const { email, password } = this.
+        console.log("register with:", email, password)
+        axios.post('/auth/register', { email, password }).then(res => {
             props.loginUser(res.data);
-            props.history.push("/dashboard");
+            props.history.push("/profile");
             console.log("Register success with", res.data)
 
         }).catch(err => {
@@ -98,28 +105,28 @@ const Auth = (props) => {
             alert('Register Failed')
         })
 
-        resetUsername();
+        resetEmail();
         resetPassword();
     }
 
 
 
-    
+
 
     return (
-        <DivContainerAuth>
+        <DivContainerAuth className="auth-container">
             <h1>Massagio</h1>
             <form onSubmit={handleSubmit}>
                 <Row>
                     <label>
-                        Username:
-                        <input type="text" {...bindUsername} />
+                        <Span className='label'>Email:</Span>
+                        <input type="text" {...bindEmail} />
                     </label>
                 </Row>
 
                 <Row>
                     <label>
-                        Password:
+                        <Span className='label'>Password:</Span>
                         <input type="password" {...bindPassword} />
                     </label>
                 </Row>

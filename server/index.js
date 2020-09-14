@@ -5,10 +5,13 @@ const massive = require('massive')
 const app = express()
 
 //controllers
+const auth = require('./controllers/authController');
+const user = require('./controllers/userController');
+const event = require('./controllers/eventController');
+const admin = require('./controllers/adminController');
 
 
 const {CONNECTION_STRING, SESSION_SECRET, SERVER_PORT} = process.env
-const auth = require('./controllers/authController');
 
 app.use(express.json())
 app.use(session({
@@ -34,6 +37,14 @@ app.post('/auth/login', auth.login)
 app.post('/auth/register', auth.register)
 app.get('/auth/logout', auth.logout)
 app.get('/auth/user', auth.getUser)
+// user
+app.get('/user/:userId', user.viewProfile)
+app.put('/user/:userId', user.update)
+//event
+app.post('/:companyName/', event.createEvent)
+// app.get('/:companyName/', event.getAllEvents)
+//admin
+app.get('/admin/companylist', admin.getCompanyList)
 
 //
 app.listen(SERVER_PORT, () => console.log(`Conncted to server on ${SERVER_PORT}`))

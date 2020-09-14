@@ -66,7 +66,7 @@ const DivContainerEvent = styled.div`
         `
 
 
-const Event = () => {
+const NewEvent = () => {
     return (
         <DivContainerEvent>
 
@@ -75,4 +75,4 @@ const Event = () => {
     )
 }
 
-export default Event
+export default NewEvent
