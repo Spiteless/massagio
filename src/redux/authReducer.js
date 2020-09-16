@@ -6,6 +6,7 @@ const initialState = {
     user: {}
 }
 
+
 const LOGIN_USER = 'LOGIN_USER';
 const LOGOUT_USER = 'LOGOUT_USER';
 const GET_USER = 'GET_USER';
@@ -67,6 +68,6 @@ export default function (state = initialState, action) {
             console.log("CHANGE_USER_OBJ_ON_PROFILE_UPDATE")
             return { ...state, ...payload}
         default:
-            return initialState
+            return { ...state}
     }
 }

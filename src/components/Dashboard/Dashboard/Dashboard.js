@@ -12,6 +12,31 @@ const Container = styled.div`
    }
 `  
 
+const Company = (props) => {
+    const { company_name } = props.company
+    return (
+    <h2>{company_name}</h2>
+)}
+
+function Item(props) {
+    return <li>{props.message}</li>;
+  }
+  
+  function TodoList() {
+    const todos = ['finish doc', 'submit pr', 'nag dan to review'];
+    return (
+      <ul>
+        {todos.map((message) => <Item key={message} message={message} />)}
+      </ul>
+    );
+  }
+
+const Thing = (props) => {
+
+    return <h1>THIS IS THING</h1>
+}
+
+  
 const Dashboard = (props) => {
     useEffect(() => {
         axios.get('/admin/companylist').then(res => {
@@ -33,11 +58,16 @@ const Dashboard = (props) => {
     })
     console.log("AXIOS CALL FOR COMPANIES", companies)
 
+    let mappedCompany = props.base.companies.map( el => {
+        return (<Company company={el}/>)
+    })
+
     return (
         <Container>
             <h1>Dashboard</h1>
-            {console.log("Dashboard:", props)}
-            <h2>{ companies[0] }</h2>
+            <h2>{ JSON.stringify(props.base) }</h2>
+            { mappedCompany }
+            <Thing/>
         </Container>
     )
 }

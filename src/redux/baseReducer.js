@@ -14,8 +14,8 @@ console.log('initialized baseReducer')
 export function adminGetCompanies(companies) {
     // console.log('UpdateUser:', companyList)
     return {
-        // type: ADMIN_GET_COMPANIES,
-        // payload: companies
+        type: ADMIN_GET_COMPANIES,
+        payload: companies
     }
 }
 
@@ -41,6 +41,6 @@ export default function (state = initialState, action) {
             // console.log(state)
             return { ...state, companies: payload }
         default:
-            return initialState
+            return { ...state }
     }
 }
