@@ -21,8 +21,9 @@ module.exports = {
                    firstName: user[0].first_name,
                    lastName: user[0].last_name,
                    isAdmin: user[0].admin,
+                   managerId: user[0].admin,
                    companyId: user[0].company_id,
-                
+
                 //    user: user[0]
                }
                res.status(200).send(req.session.user)

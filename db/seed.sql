@@ -21,6 +21,7 @@ CREATE TABLE company
 (
     company_id serial PRIMARY KEY,
     company_name varchar(80),
+    company_url_slug varchar(20) UNIQUE,
     manager_id_1 INT REFERENCES users (user_id),
     manager_id_2 INT REFERENCES users (user_id),
     manager_id_3 INT REFERENCES users (user_id)
@@ -35,7 +36,6 @@ CREATE TABLE event
     event_id serial PRIMARY KEY,
     start_time text,
     slots_per_hour int,
-    user_id int REFERENCES users (user_id),
     company_id int REFERENCES company (company_id)
 );
 

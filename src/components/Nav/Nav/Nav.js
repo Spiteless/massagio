@@ -23,7 +23,7 @@ const NavDropdownAdmin = () => (
             <Dropdown.Item text='My Profile' as={Link} to='/profile' />
             <Dropdown.Item text='Cart' icon='cart' as={Link} to='/cart' />
             <Dropdown.Item text='Log Out' onClick={logout} as={Link} to='/' />
-            <Dropdown.Item text='Create Event' onClick={() => {}} as={Link} to='/event/new' />
+            <Dropdown.Item text='Create Event' onClick={() => { }} as={Link} to='/event/new' />
         </Dropdown.Menu>
     </Dropdown>
 )
@@ -60,6 +60,22 @@ const Logo = styled.div`
         /* color: hotpink; */
         height: 36px;
         display: inline-block;
+    }
+    & > h1 > a:link {
+        color: #ff7034;
+        text-decoration: none;
+    }
+    & > h1 > a:hover {
+        color: white;
+        text-decoration: none;
+    }
+    & > h1 > a:visited {
+        color: #ff7034;
+        text-decoration: none;
+    }
+    & > h1 > a:active {
+        color: #ff7034;
+        text-decoration: none;
     }
     & > img {
         margin: 0px;
@@ -132,60 +148,64 @@ const Nav = (props) => {
     console.log("does this line clear")
     useEffect(
         () => {
-        console.log("RAN USE EFFECT NAV")
-        const user_info_in = axios.get("/auth/user").then(res => {
-            console.log("getUser reducer")
-            props.getUser(res.data)
-            console.log("res Data-------------", res.data)
-        }).catch((err) => {
+            console.log("RAN USE EFFECT NAV")
+            const user_info_in = axios.get("/auth/user").then(res => {
+                console.log("getUser reducer")
+                props.getUser(res.data)
+                console.log("res Data-------------", res.data)
+            }).catch((err) => {
                 console.log(err)
             })
-        console.log("useEffect has run")
-    }, [])
+            console.log("useEffect has run")
+        }, [])
 
     // attempting to extract useEffect out 
-            // console.log(IsActiveSession())
+    // console.log(IsActiveSession())
 
     return (
         <div className="nav-container">
             <Navbar>
-            <div className="group">
-                <Logo className="Logo group">
-                    <Link to="/dashboard">
-                        <StyledImg
-                            className="nav-profile-pic"
-                            src={"https://media.istockphoto.com/vectors/young-woman-having-relaxation-office-massage-in-mobile-chair-vector-id833156068?s=170x170"} />
-                    </Link>
-                    <h1>Massagio</h1>
-                </Logo>
-            </div>
+                <div className="group">
+                    <Logo className="Logo group">
+                        <Link to="/dashboard">
+                            <StyledImg
+                                className="nav-profile-pic"
+                                src={"https://media.istockphoto.com/vectors/young-woman-having-relaxation-office-massage-in-mobile-chair-vector-id833156068?s=170x170"} />
+                        </Link>
+                        <h1>
+                            <Link to="/dashboard">
+                                Massagio
+                            </Link>
+                        </h1>
+                    </Logo>
+                </div>
 
-            <div className="group">
-                <h1>{
-                    (props.user.email)
-                        ? "Hello " + props.user.firstName
-                        : <Link to="/"><Button className='to-login'>Please Login</Button></Link>
-                }</h1>
-            </div>
+                <div className="group">
+                    <h1>{
+                        (props.user.email)
+                            ? "Hello " + props.user.firstName
+                            : <Link to="/"><Button className='to-login'>Please Login</Button></Link>
+                    }</h1>
+                </div>
 
-            <div className="group">
-                <ProfileContainer>
-                    <Menu>
-                        { (props.user.isAdmin) 
-                            ? <NavDropdownAdmin />
-                            : <NavDropdown />
-                        }
-                    </Menu>
-                    <Link to="/profile">
-                        <StyledImg className="nav-profile-pic" src={props.user.profilePic} />
-                    </Link>
-                </ProfileContainer>
-            </div>
+                <div className="group">
+                    <ProfileContainer>
+                        <Menu>
+                            {(props.user.isAdmin)
+                                ? <NavDropdownAdmin />
+                                : <NavDropdown />
+                            }
+                        </Menu>
+                        <Link to="/profile">
+                            <StyledImg className="nav-profile-pic" src={props.user.profilePic} />
+                        </Link>
+                    </ProfileContainer>
+                </div>
 
 
-        </Navbar>
+            </Navbar>
         </div>
-        
+
 
     )
 }
@@ -208,6 +228,7 @@ const mapStateToProps = reduxState => {
     return newState
 };
 
-export default connect(mapStateToProps, { getUser,
+export default connect(mapStateToProps, {
+    getUser,
     logoutUser,
 })(Nav);

@@ -8,6 +8,7 @@ const app = express()
 const auth = require('./controllers/authController');
 const user = require('./controllers/userController');
 const event = require('./controllers/eventController');
+const slot = require('./controllers/slotController');
 const admin = require('./controllers/adminController');
 
 
@@ -42,7 +43,10 @@ app.get('/user/:userId', user.viewProfile)
 app.put('/user/:userId', user.update)
 //event
 app.post('/:companyName/', event.createEvent)
-// app.get('/:companyName/', event.getAllEvents)
+app.get('/:companyUrlSlug/', event.getAllEvents)
+app.get('/:companyUrlSlug/slots', event.getSlots)
+//slot
+app.put('/update-slots', slot.updateSlots)
 //admin
 app.get('/admin/companylist', admin.getCompanyList)
 

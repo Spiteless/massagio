@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { updateUser } from "../../../redux/baseReducer";
 import styled from '@emotion/styled'
 import { useInput } from "../../../hooks/InputHook"
@@ -66,11 +66,30 @@ const DivContainerEvent = styled.div`
         `
 
 
-const Event = () => {
+const Event = (props) => {
+    console.log("@@", props)
+    const [events, setEvents] = useState([])
+
+    useEffect( ()=>{
+
+    }, [])
+    
+    const getCompanyEvents = () => {
+        axios.get(
+            // `/${company_url_slug}`
+            ).then(res => {
+            console.log(res.data)
+            setEvents(res.data)
+            // return res.data
+            }).catch(() => {
+                console.log('company-list fail')
+            })
+    }
     return (
         <DivContainerEvent>
 
             <h1>Hello Event</h1>
+            <h2>{events.map(e=> <p>e.start_time</p>)}</h2>
         </DivContainerEvent>
     )
 }

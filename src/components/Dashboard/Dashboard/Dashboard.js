@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { adminGetCompanies } from "../../../redux/baseReducer";
-import styled from '@emotion/styled'
-import axios from 'axios'
+import styled from '@emotion/styled';
+import axios from 'axios';
+import Admin from '../Admin/Admin';
 
 const Container = styled.div`
    background-color: #232323;
@@ -17,25 +18,6 @@ const Company = (props) => {
     return (
     <h2>{company_name}</h2>
 )}
-
-function Item(props) {
-    return <li>{props.message}</li>;
-  }
-  
-  function TodoList() {
-    const todos = ['finish doc', 'submit pr', 'nag dan to review'];
-    return (
-      <ul>
-        {todos.map((message) => <Item key={message} message={message} />)}
-      </ul>
-    );
-  }
-
-const Thing = (props) => {
-
-    return <h1>THIS IS THING</h1>
-}
-
   
 const Dashboard = (props) => {
     useEffect(() => {
@@ -52,11 +34,10 @@ const Dashboard = (props) => {
         console.log("useEffect has run in Dashboard")
     }, [props.companies])
 
-    const companies = axios.get('/admin/companylist').then(res => {
-        console.log(res.data)
-        return res.data
-    })
-    console.log("AXIOS CALL FOR COMPANIES", companies)
+    // const companies = axios.get('/admin/companylist').then(res => {
+    //     console.log(res.data)
+    //     return res.data
+    // })
 
     let mappedCompany = props.base.companies.map( el => {
         return (<Company company={el}/>)
@@ -64,10 +45,9 @@ const Dashboard = (props) => {
 
     return (
         <Container>
-            <h1>Dashboard</h1>
-            <h2>{ JSON.stringify(props.base) }</h2>
-            { mappedCompany }
-            <Thing/>
+            { (props.auth.user.isAdmin)
+                ? <Admin/>
+                : null }
         </Container>
     )
 }
